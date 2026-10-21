@@ -33,8 +33,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
+      - name: Fix permissions and build project
+        env:
+          VITE_ADMIN_PASSCODE: ${{ secrets.VITE_ADMIN_PASSCODE }}
+        run: |
+          chmod -R +x node_modules/.bin
+          npx vite build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,4 +51,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        
